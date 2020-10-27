@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.18.1/lib/index.min.js">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath@0.6.5/css/texmath.css">
+<link rel="stylesheet" href="https://gitcdn.xyz/repo/goessner/mdmath/master/css/vscode-texmath.css">
+
+</head>
+<body class="markdown-body">
+<h1 id="notes-on-maximum-non-adjacent-sum" data-line="0" class="code-line">Notes on Maximum Non Adjacent Sum</h1>
+<h2 id="uses-dynamic-programming" data-line="2" class="code-line">Uses Dynamic Programming</h2>
+<h2 id="high-level-algorithm" data-line="4" class="code-line">High Level Algorithm</h2>
+<ul>
+<li data-line="6" class="code-line">Keep a secondary array for memoization, the same length as original</li>
+<li data-line="7" class="code-line">Populate the elements
+<ul>
+<li data-line="8" class="code-line">Add the first element by default</li>
+<li data-line="9" class="code-line">The other elements can be found with the function:</li>
+</ul>
+</li>
+</ul>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>p</mi><mo>[</mo><mi>e</mi><mi>l</mi><mi>e</mi><mo>]</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mrow><mo fence="true">{</mo><mtable><mtr><mtd><mrow><mi>d</mi><mi>p</mi><mo>[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>]</mo></mrow></mtd></mtr><mtr><mtd><mrow><mi>d</mi><mi>p</mi><mo>[</mo><mi>i</mi><mo>−</mo><mn>2</mn><mo>]</mo><mo>+</mo><mi>c</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>N</mi><mi>u</mi><mi>m</mi><mo>[</mo><mi>i</mi><mo>]</mo></mrow></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex"> dp[ele]= max \left\{
+\begin{array}{ll}
+      dp[i - 1] \\
+      dp[i - 2] + currentNum[i]
+\end{array} 
+\right. </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.45em;"></span><span class="strut bottom" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">d</span><span class="mord mathit">p</span><span class="mopen">[</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">e</span><span class="mclose">]</span><span class="mrel">=</span><span class="mord mathit">m</span><span class="mord mathit">a</span><span class="mord mathit">x</span><span class="minner displaystyle textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size3">{</span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-l"><span class="vlist"><span style="top:-0.6099999999999999em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord mathit">d</span><span class="mord mathit">p</span><span class="mopen">[</span><span class="mord mathit">i</span><span class="mbin">−</span><span class="mord mathrm">1</span><span class="mclose">]</span></span></span><span style="top:0.5900000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord mathit">d</span><span class="mord mathit">p</span><span class="mopen">[</span><span class="mord mathit">i</span><span class="mbin">−</span><span class="mord mathrm">2</span><span class="mclose">]</span><span class="mbin">+</span><span class="mord mathit">c</span><span class="mord mathit">u</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit" style="margin-right:0.02778em;">r</span><span class="mord mathit">e</span><span class="mord mathit">n</span><span class="mord mathit">t</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit">u</span><span class="mord mathit">m</span><span class="mopen">[</span><span class="mord mathit">i</span><span class="mclose">]</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></span></p>
+<ul>
+<li data-line="18" class="code-line">Last number will have the max subset sum</li>
+</ul>
+<h2 id="intuition" data-line="20" class="code-line">Intuition</h2>
+<ul>
+<li data-line="22" class="code-line">Since we build the greatest possible sum at any given index, we can guarentee that when we look back in previous sums, they are the greatest sum
+<ul>
+<li data-line="23" class="code-line">Avoids having to look at all of the sums calculated before</li>
+</ul>
+</li>
+</ul>
+<h2 id="complexity" data-line="25" class="code-line">Complexity</h2>
+<h3 id="time" data-line="27" class="code-line">Time</h3>
+<ul>
+<li data-line="29" class="code-line">Run through all of the elements to be able to calculate the maximum possible sum
+<ul>
+<li data-line="30" class="code-line">O(n), n is the length of the array</li>
+</ul>
+</li>
+</ul>
+<h3 id="space" data-line="32" class="code-line">Space</h3>
+<p data-line="34" class="code-line">Solution 1:</p>
+<ul>
+<li data-line="36" class="code-line">Have to keep a copy array of the same length
+<ul>
+<li data-line="37" class="code-line">O(n)</li>
+</ul>
+</li>
+</ul>
+<p data-line="39" class="code-line">Solution 2:</p>
+<ul>
+<li data-line="41" class="code-line">Can only store the two values that are being used in piecewise function to calculate the current max subset sum
+<ul>
+<li data-line="42" class="code-line">O(1)</li>
+</ul>
+</li>
+</ul>
+
+</body></html>
