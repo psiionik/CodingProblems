@@ -69,9 +69,26 @@ void printPrefix(BinaryTree *tree) {
     }
 }
 
+int helper(BinaryTree *root, int depth) {
+    if (root -> left == NULL && root -> right == NULL) {
+        return depth;
+    }
+    int sum = depth;
+
+    if (root -> left) {
+        sum += helper(root -> left, depth + 1);
+    }
+
+    if (root -> right) {
+        sum += helper(root -> right, depth + 1);
+    }
+
+    return sum;
+}
+
 int nodeDepthsSol1(BinaryTree *root) {
   // Write your code here.
-  return -1;
+  return helper(root, 0);
 }
 
 int main() {
