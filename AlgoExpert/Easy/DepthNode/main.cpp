@@ -87,7 +87,6 @@ int helper(BinaryTree *root, int depth) {
 }
 
 int nodeDepthsSol1(BinaryTree *root) {
-  // Write your code here.
   return helper(root, 0);
 }
 
