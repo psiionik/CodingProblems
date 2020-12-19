@@ -31,7 +31,7 @@ class Ranges {
 };
 
 int validPasswordsOne(vector<string> &passwords, vector<pair<char, Ranges>> &charInstanceMap) {
-
+    
 }
 
 int main() {
