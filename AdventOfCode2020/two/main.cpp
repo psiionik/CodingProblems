@@ -31,7 +31,38 @@ class Ranges {
 };
 
 int validPasswordsOne(vector<string> &passwords, vector<pair<char, Ranges>> &charInstanceMap) {
-    
+    int result = 0;
+
+    for(int i = 0; i < passwords.size(); i++) {
+        int countOfChar = count(passwords.at(i).begin(), passwords.at(i).end(), charInstanceMap.at(i).first);
+        if (countOfChar >= charInstanceMap.at(i).second.minRange && countOfChar <= charInstanceMap.at(i).second.maxRange) {
+            result++;
+        }
+    }
+
+    return result;
+}
+
+int validPasswordsTwo(vector<string> &passwords, vector<pair<char, Ranges>> &charInstanceMap) {
+    int result = 0;
+
+    for (int i = 0; i< passwords.size(); i++) {
+        int occurences = 0;
+
+        if (passwords.at(i).at(charInstanceMap.at(i).second.minRange - 1) == charInstanceMap.at(i).first) {
+            occurences++;
+        }
+
+        if (passwords.at(i).at(charInstanceMap.at(i).second.maxRange - 1) == charInstanceMap.at(i).first) {
+            occurences++;
+        }
+
+        if (occurences == 1) {
+            result++;
+        }
+    }
+
+    return result;
 }
 
 int main() {
@@ -87,6 +118,7 @@ int main() {
 
 
     cout << validPasswordsOne(passwords, charInstanceMap) << endl;
+    cout << validPasswordsTwo(passwords, charInstanceMap) << endl;
 
     return 0;
 }
