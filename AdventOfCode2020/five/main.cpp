@@ -4,55 +4,40 @@
 #include <algorithm>
 #include <unordered_map>
 #include <fstream>
+#include <math.h>
 
 using namespace std;
 
-int tobogganTrajectoryOne(vector<vector<char>> &lines) {
-    int row = 0;
-    int col = 0;
-    int amountOfTrees = 0;
+int binaryBoardingOne(vector<string> &passes) {
+    int highestSeatId = -1;
+    int lengthRow = 7;
+    int lengthCol = 3;
 
-    while(row < lines.size()) {
-        if (lines.at(row).at(col) == '#') {
-            amountOfTrees++;
+    for (int i = 0; i < passes.size(); i++) {
+        int seatId = -1;
+        int rowAdd = 0;
+        int colAdd = 0;
+
+        for (int j = 0; j < lengthRow; j++) {
+            if (passes.at(i).at(j) == 'B') {
+                rowAdd += pow(2, lengthRow - (j + 1));
+            }
         }
 
-        row++;
-        col += 3;
+        for (int j = 0; j < lengthCol; j++) {
+            if (passes.at(i).at(j + lengthRow) == 'R') {
+                colAdd += pow(2, lengthCol - (j + 1));
+            }
+        }
 
-        if (row < lines.size() && col >= lines.at(row).size()) {
-            col = col - lines.at(row).size();
+        seatId = (rowAdd * 8) + colAdd;
+
+        if (seatId > highestSeatId) {
+            highestSeatId = seatId;
         }
     }
 
-    return amountOfTrees;
-}
-
-long long calculateNumberOfTrees(vector<vector<char>> &lines, int rowInc, int colInc) {
-    int row = 0;
-    int col = 0;
-    long long amountOfTrees = 0;
-    while(row < lines.size()) {
-        if (lines.at(row).at(col) == '#') {
-            amountOfTrees++;
-        }
-
-        row += rowInc,
-        col = (col + colInc) % lines.at(0).size() ;
-
-    }
-
-    return amountOfTrees;
-}
-
-long long tobogganTrajectoryTwo(vector<vector<char>> &lines) {
-    long long slope1 = calculateNumberOfTrees(lines, 1, 1);
-    long long slope2 = calculateNumberOfTrees(lines, 1, 3);   
-    long long slope3 = calculateNumberOfTrees(lines, 1, 5);
-    long long slope4 = calculateNumberOfTrees(lines, 1, 7);
-    long long slope5 = calculateNumberOfTrees(lines, 2, 1);
-
-    return slope1 * slope2 * slope3 * slope4 * slope5;
+    return highestSeatId;
 }
 
 int main() {
@@ -65,22 +50,15 @@ int main() {
     ifstream myFile;
     myFile.open("./input.txt");
 
-    vector<vector<char>> lines;
-    lines.push_back(vector<char>());
+    vector<string> lines;
     string temp;
     while(!myFile.eof()){
         getline(myFile, temp);
-        for (char c : temp) {
-            lines.at(lines.size() - 1).push_back(c);
-        }
-        lines.push_back(vector<char>());
+        lines.push_back(temp);
     }
     myFile.close();
 
-    lines.erase(lines.begin() + (lines.size() - 1), lines.end());
-
-    cout << tobogganTrajectoryOne(lines) << endl;
-    cout << tobogganTrajectoryTwo(lines) << endl;
+    cout << binaryBoardingOne(lines) << endl;
 
     return 0;
 }
