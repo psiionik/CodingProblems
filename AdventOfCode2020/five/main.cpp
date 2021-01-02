@@ -41,7 +41,7 @@ int binaryBoardingOne(vector<string> &passes) {
 }
 
 int binaryBoardingTwo(vector<string> &passes) {
-
+    int passId = 0;
 }
 
 int main() {
