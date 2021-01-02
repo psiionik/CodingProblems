@@ -40,6 +40,10 @@ int binaryBoardingOne(vector<string> &passes) {
     return highestSeatId;
 }
 
+int binaryBoardingTwo(vector<string> &passes) {
+
+}
+
 int main() {
 
     #ifdef _DEBUG
