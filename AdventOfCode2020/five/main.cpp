@@ -41,7 +41,45 @@ int binaryBoardingOne(vector<string> &passes) {
 }
 
 int binaryBoardingTwo(vector<string> &passes) {
-    int passId = 0;
+    vector<int> ids;
+    int lengthRow = 7;
+    int lengthCol = 3;
+
+    for (int i = 0; i < passes.size(); i++) {
+        int seatId = -1;
+        int rowAdd = 0;
+        int colAdd = 0;
+
+        for (int j = 0; j < lengthRow; j++) {
+            if (passes.at(i).at(j) == 'B') {
+                rowAdd += pow(2, lengthRow - (j + 1));
+            }
+        }
+
+        for (int j = 0; j < lengthCol; j++) {
+            if (passes.at(i).at(j + lengthRow) == 'R') {
+                colAdd += pow(2, lengthCol - (j + 1));
+            }
+        }
+
+        seatId = (rowAdd * 8) + colAdd;
+
+        ids.push_back(seatId);
+    }
+
+    sort(ids.begin(), ids.end());
+
+    int comparison = ids.at(0);
+
+    for (int i = 0; i < ids.size(); i++) {
+        if (comparison != ids.at(i)) {
+            break;
+        }
+
+        comparison++;
+    }
+
+    return comparison;
 }
 
 int main() {
@@ -63,6 +101,7 @@ int main() {
     myFile.close();
 
     cout << binaryBoardingOne(lines) << endl;
+    cout << binaryBoardingTwo(lines) << endl;
 
     return 0;
 }
