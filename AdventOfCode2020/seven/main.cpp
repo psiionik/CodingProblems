@@ -9,14 +9,13 @@
 using namespace std;
 
 void printMap(unordered_map<string, vector<string>> &string_map) {
-
-    // for (auto it = string_map.begin(); it != string_map.end(); it++) {
-    //     cout << "KEY: " << it -> first << "LENGTH: " << it -> first.size();
-    //     for (int i = 0; i < it -> second.size(); i++) {
-    //         cout << " VALUE: " << it -> second.at(i) << " ";
-    //     }
-    //     cout << endl;
-    // }
+    for (auto it = string_map.begin(); it != string_map.end(); it++) {
+        cout << "KEY: " << it -> first << " | ";
+        for (int i = 0; i < it -> second.size(); i++) {
+            cout << "VALUE: " << it -> second.at(i) << " ";
+        }
+        cout << endl;
+    }
 }
 
 int helper(unordered_map<string, vector<string>> &string_map, string current_bag_color) {
@@ -51,6 +50,52 @@ int handyHaversacksOne(unordered_map<string, vector<string>> &string_map) {
     return result;
 }
 
+int helper2(unordered_map<string, vector<string>> &string_map, string current_bag_color) {
+    if (current_bag_color.find("other") != string::npos) {
+        return 0;
+    }
+
+    int res = 0;
+
+    for (int i = 0; i < string_map.at(current_bag_color).size(); i++) {
+        string bag_color = string_map.at(current_bag_color).at(i);
+        if (bag_color.find("other") != string::npos) {
+            continue;
+        }
+        string delimiter = " ";
+        size_t start = 0;
+        size_t end = bag_color.find(delimiter);
+        vector<string> tokens;
+        while(end != string::npos) {    
+            string extracted = bag_color.substr(start, end - start);
+            tokens.push_back(extracted);
+            start = end + delimiter.length();
+            end = bag_color.find(delimiter, start);
+        }
+
+        tokens.push_back(bag_color.substr(start, end - start));
+        int number_of_bags = stoi(tokens.at(0));
+        string new_bag = tokens.at(1) + " " + tokens.at(2);
+        res += number_of_bags + (number_of_bags * helper2(string_map, new_bag));
+    }
+
+    return res;
+}
+
+int handyHaversacksTwo(unordered_map<string, vector<string>> &string_map) {
+    int result = 0;
+
+    printMap(string_map);
+
+    for (auto it = string_map.begin(); it != string_map.end(); it++) {
+        if (it -> first.find("shiny gold") != string::npos) {
+            result = helper2(string_map, it -> first);
+        }
+    }
+
+    return result;
+}
+
 int main() {
 
     #ifdef _DEBUG
@@ -71,6 +116,7 @@ int main() {
     myFile.close();
 
     unordered_map<string, vector<string>> split_strings_map;
+    unordered_map<string, vector<string>> split_strings_map2;
 
     for (string rule : lines) {
         vector<string> connected;
@@ -117,9 +163,11 @@ int main() {
         }
 
         split_strings_map.emplace(key, connected);
+        split_strings_map2.emplace(key, temp);
     }
 
     cout << handyHaversacksOne(split_strings_map) << endl;
+    cout << handyHaversacksTwo(split_strings_map2) << endl;
 
     return 0;
 }
