@@ -8,14 +8,47 @@
 
 using namespace std;
 
-int handyHaversacksOne(unordered_map<string, vector<string>> &string_map) {
-    for (auto it = string_map.begin(); it != string_map.end(); it++) {
-        cout << "KEY: " << it -> first << " VALUE: ";
-        for (string s : it -> second) {
-            cout << s << ", ";
-        }
-        cout <<  endl;
+void printMap(unordered_map<string, vector<string>> &string_map) {
+
+    // for (auto it = string_map.begin(); it != string_map.end(); it++) {
+    //     cout << "KEY: " << it -> first << "LENGTH: " << it -> first.size();
+    //     for (int i = 0; i < it -> second.size(); i++) {
+    //         cout << " VALUE: " << it -> second.at(i) << " ";
+    //     }
+    //     cout << endl;
+    // }
+}
+
+int helper(unordered_map<string, vector<string>> &string_map, string current_bag_color) {
+    if (current_bag_color.find("shiny gold") != string::npos) {
+        return 1;
     }
+    else if (current_bag_color.find("other") != string::npos) {
+        return 0;
+    }
+    else {
+        int res = 0;
+        
+        for (int i = 0; i < string_map.find(current_bag_color) -> second.size(); i++) {
+            res += helper(string_map, string_map.find(current_bag_color) -> second.at(i));
+        }
+
+        return res > 0 ? 1 : 0;
+    }
+}
+
+int handyHaversacksOne(unordered_map<string, vector<string>> &string_map) {
+    int result = 0;
+
+    for (auto it = string_map.begin(); it != string_map.end(); it++) {
+        if (it -> first.find("shiny gold") != string::npos) {
+            continue;
+        }
+        result += helper(string_map, it -> first);
+
+    }
+
+    return result;
 }
 
 int main() {
@@ -41,7 +74,7 @@ int main() {
 
     for (string rule : lines) {
         vector<string> connected;
-        string delimiter1 = "bags contain ";
+        string delimiter1 = " bags contain ";
         size_t start = 0;
         size_t end = rule.find(delimiter1);
         string key;
@@ -64,7 +97,9 @@ int main() {
         }
 
         temp.push_back(second.substr(start, end - start));
-        
+
+        temp.at(temp.size() - 1).erase(temp.at(temp.size() - 1).end() - 1, temp.at(temp.size() - 1).end());
+
         for (string s : temp) {
             string delimiter3 = " ";
             start = 0;
