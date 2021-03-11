@@ -8,8 +8,51 @@
 
 using namespace std;
 
+bool recursiveHelper2(vector<vector<int> > &matrix, int target, int row_start, int col_start, int row_end, int col_end) {
+    if (row_start == row_end || col_start == col_end) {
+        return false;
+    }
+    
+    int row_med = (row_start + row_end) / 2;
+    int col_med = (col_start + col_end) / 2;
+    int median_value = matrix.at(row_med).at(col_med);
+
+    cout << "MEDIAN VALUE: " << median_value << endl;
+    cout << "Row Start: " << row_start << endl;
+    cout << "Row Med: " << row_med << endl;
+    cout << "Row End: " << row_end << endl;
+    cout << "Col Start: " << col_start << endl;
+    cout << "Col Med: " << col_med << endl;
+    cout << "Col End: " << col_end << endl;
+
+    if (median_value == target) {
+        return true;
+    }
+
+    if (median_value > target) {
+        // Top left
+        return recursiveHelper2(matrix, target, row_start, col_start, row_med, col_med);
+    }
+    else {
+        
+        // Bottom left
+        bool branch1 = recursiveHelper2(matrix, target, row_med + 1, col_start, row_end, col_med);
+
+        // Bottom Right
+        bool branch2 = recursiveHelper2(matrix, target, row_med + 1, col_med + 1, row_end, col_end);
+
+        // Top Right
+        bool branch3 = recursiveHelper2(matrix, target, row_start, col_med + 1, row_med, col_end);
+
+        return branch1 || branch2 || branch3;
+    }
+}
+
 bool searchMatrix2(vector<vector<int> > &matrix, int target) {
-    return false;
+    int m = matrix.size();
+    int n = matrix.at(0).size();
+
+    return recursiveHelper2(matrix, target, 0, 0, m, n);
 }
 
 vector<int> convertTo2d(int value, int row_size, int col_size) {
@@ -67,7 +110,7 @@ bool searchMatrix(vector<vector<int> > &matrix, int target) {
 int main() {
 
     #ifdef _DEBUG
-        freopen("input2.txt", "r", stdin);
+        freopen("input3.txt", "r", stdin);
         // freopen("output.txt", "w", stdout);
     #endif
 
@@ -97,7 +140,7 @@ int main() {
 
     cin >> target;
 
-    cout << "LEVEL 1: \n" << (searchMatrix(matrix, target) ? "true" : "false") << endl;
+    // cout << "LEVEL 1: \n" << (searchMatrix(matrix, target) ? "true" : "false") << endl;
 
     cout << "LEVEL 2: \n" << (searchMatrix2(matrix, target) ? "true" : "false") << endl;
 
