@@ -8,52 +8,109 @@
 
 using namespace std;
 
-bool recursiveHelper2(vector<vector<int> > &matrix, int target, int row_start, int col_start, int row_end, int col_end) {
-    if (row_start == row_end || col_start == col_end) {
+bool searchMatrix2BruteForce(vector<vector<int>> &matrix, int target) {
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix.at(i).size(); j++) {
+            if (matrix.at(i).at(j) == target) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool binarySearch(vector<int> &arr, int target, int start, int end) {
+    if (start == end) {
         return false;
     }
-    
-    int row_med = (row_start + row_end) / 2;
-    int col_med = (col_start + col_end) / 2;
-    int median_value = matrix.at(row_med).at(col_med);
 
-    cout << "MEDIAN VALUE: " << median_value << endl;
-    cout << "Row Start: " << row_start << endl;
-    cout << "Row Med: " << row_med << endl;
-    cout << "Row End: " << row_end << endl;
-    cout << "Col Start: " << col_start << endl;
-    cout << "Col Med: " << col_med << endl;
-    cout << "Col End: " << col_end << endl;
+    int mid = (end + start) / 2;
+    int mid_value = arr.at(mid);
 
-    if (median_value == target) {
+    if (mid_value == target) {
         return true;
     }
-
-    if (median_value > target) {
-        // Top left
-        return recursiveHelper2(matrix, target, row_start, col_start, row_med, col_med);
+    else if (mid_value < target) {
+        return binarySearch(arr, target, mid + 1, end);
     }
     else {
-        
-        // Bottom left
-        bool branch1 = recursiveHelper2(matrix, target, row_med + 1, col_start, row_end, col_med);
-
-        // Bottom Right
-        bool branch2 = recursiveHelper2(matrix, target, row_med + 1, col_med + 1, row_end, col_end);
-
-        // Top Right
-        bool branch3 = recursiveHelper2(matrix, target, row_start, col_med + 1, row_med, col_end);
-
-        return branch1 || branch2 || branch3;
+        return binarySearch(arr, target, start, mid);
     }
 }
 
-bool searchMatrix2(vector<vector<int> > &matrix, int target) {
-    int m = matrix.size();
-    int n = matrix.at(0).size();
+bool searchMatrix2BinarySearch(vector<vector<int>> &matrix, int target) {
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = i; j < matrix.at(i).size(); j++) {
+            vector<int> parsed_row;
+            vector<int> parsed_col;
 
-    return recursiveHelper2(matrix, target, 0, 0, m, n);
+            for (int k = i; k < matrix.size(); k++) {
+                parsed_row.push_back(matrix.at(k).at(j));
+            }
+
+            for (int l = j; l < matrix.at(i).size(); l++) {
+                parsed_col.push_back(matrix.at(i).at(l));
+            }
+
+            if (binarySearch(parsed_col, target, 0, parsed_col.size()) || binarySearch(parsed_row, target, 0, parsed_row.size())){
+                return true;
+            }
+        }
+    }
+    return false;
 }
+
+bool searchDivideAndConquer(vector<vector<int>> &matrix, int target, int left, int up, int right, int down) {
+    if (left > right || up > down) {
+        return false;
+    }
+
+    if (matrix.at(up).at(left) > target || matrix.at(down).at(right) < target) {
+        return false;
+    }
+
+    int mid = left + (right - left) / 2;
+    int row = up;
+
+    while (row <= down && matrix.at(row).at(mid) <= target) {
+        if (matrix.at(row).at(mid) == target) {
+            return true;
+        }
+
+        row++;
+    }
+
+    return searchDivideAndConquer(matrix, target, left, row, mid - 1, down) || searchDivideAndConquer(matrix, target, mid + 1, up, right, row - 1);
+}
+
+bool searchMatrix2DivideAndConquer(vector<vector<int>> &matrix, int target) {
+    if (matrix.size() == 0) {
+        return false;
+    }
+
+    return searchDivideAndConquer(matrix, target, 0, 0, matrix.at(0).size() - 1, matrix.size() - 1);
+}
+
+bool searchMatrix2SearchSpaceReduction(vector<vector<int>> &matrix, int target) {
+    int row = matrix.size() - 1;
+    int col = 0;
+
+    while (row >= 0 && col < matrix.at(row).size()) {
+        if (matrix.at(row).at(col) == target) {
+            return true;
+        }
+        else if(matrix.at(row).at(col) < target) {
+            col++;
+        }
+        else {
+            row--;
+        }
+    }
+
+    return false;
+}
+
 
 vector<int> convertTo2d(int value, int row_size, int col_size) {
     vector<int> res(2, 0);
@@ -110,7 +167,7 @@ bool searchMatrix(vector<vector<int> > &matrix, int target) {
 int main() {
 
     #ifdef _DEBUG
-        freopen("input3.txt", "r", stdin);
+        freopen("input.txt", "r", stdin);
         // freopen("output.txt", "w", stdout);
     #endif
 
@@ -142,7 +199,13 @@ int main() {
 
     // cout << "LEVEL 1: \n" << (searchMatrix(matrix, target) ? "true" : "false") << endl;
 
-    cout << "LEVEL 2: \n" << (searchMatrix2(matrix, target) ? "true" : "false") << endl;
+    cout << "LEVEL 2 BRUTE FORCE: \n" << (searchMatrix2BruteForce(matrix, target) ? "true" : "false") << endl;
+
+    cout << "LEVEL 2 BINARY SEARCH: \n" << (searchMatrix2BinarySearch(matrix, target) ? "true" : "false") << endl;
+
+    cout << "LEVEL 2 DIVIDE AND CONQUER: \n" << (searchMatrix2DivideAndConquer(matrix, target) ? "true" : "false") << endl;
+
+    cout << "LEVEL 2 SEARCH SPACE REDUCTION: \n" << (searchMatrix2SearchSpaceReduction(matrix, target) ? "true" : "false") << endl;
 
     return 0;
 }
