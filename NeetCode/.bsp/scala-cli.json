@@ -1,0 +1,20 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "/Users/brandenkim/Library/Application Support/Coursier/bin/.scala-cli.aux",
+    "bsp",
+    "--json-options",
+    "/Users/brandenkim/CodingProblems/NeetCode/.scala-build/ide-options-v2.json",
+    "--json-launcher-options",
+    "/Users/brandenkim/CodingProblems/NeetCode/.scala-build/ide-launcher-options.json",
+    "--envs-file",
+    "/Users/brandenkim/CodingProblems/NeetCode/.scala-build/ide-envs.json",
+    "/Users/brandenkim/CodingProblems/NeetCode"
+  ],
+  "version": "1.4.0",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
