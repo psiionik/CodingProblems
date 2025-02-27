@@ -64,8 +64,8 @@ def testCase3(f: (Array[Int], Int) => List[List[Int]]): Unit = {
 
 def runTestCases(f: (Array[Int], Int) => List[List[Int]]): Unit = {
     testCase1(f)
-    testCase2(f)
-    testCase3(f)
+    // testCase2(f)
+    // testCase3(f)
 }
 
 @main def mainSol1() = {

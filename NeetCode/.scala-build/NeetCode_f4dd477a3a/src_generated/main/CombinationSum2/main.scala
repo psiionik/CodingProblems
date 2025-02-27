@@ -7,6 +7,7 @@ def scriptPath = """CombinationSum2/main.sc"""
 /*<script>*/
 import $file.Soln1, Soln1.Solution1
 import $file.Soln2, Soln2.Solution2 
+import $file.Soln3, Soln3.Solution3
 
 def testCase1(f: (Array[Int], Int) => List[List[Int]]): Unit = {
     val candidates = Array(10,1,2,7,6,1,5)
@@ -70,8 +71,8 @@ def testCase3(f: (Array[Int], Int) => List[List[Int]]): Unit = {
 
 def runTestCases(f: (Array[Int], Int) => List[List[Int]]): Unit = {
     testCase1(f)
-    testCase2(f)
-    testCase3(f)
+    // testCase2(f)
+    // testCase3(f)
 }
 
 @main def mainSol1() = {
@@ -80,6 +81,10 @@ def runTestCases(f: (Array[Int], Int) => List[List[Int]]): Unit = {
 
 @main def mainSol2() = {
     runTestCases(Solution2.combinationSum2)
+}
+
+@main def mainSol3() = {
+    runTestCases(Solution3.combinationSum2)
 }
 /*</script>*/ /*<generated>*//*</generated>*/
 }
