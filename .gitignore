@@ -1,0 +1,17 @@
+**/.bsp
+**/.ammonite
+**/.vscode
+**/.scala-build
+**/.metals/*
+
+**/*/.bsp
+**/*/.ammonite
+**/*/.vscode
+**/*/.scala-build
+**/*/.metals/*
+
+.bsp/
+.ammonite/
+.vscode/
+.scala-build/
+.metals/
