@@ -11,7 +11,9 @@ def testCase1(f: (String, Int) => List[String]): Unit = {
 
     val actual = Array("255.0.0.7/32","255.0.0.8/29","255.0.0.16/32") 
 
-    for (index <- Range(0, res.length))
+    assert(res.length == actual.length, "Test Case 1 Failed! Lists were different lengths")
+
+    for (index <- Range(0, actual.length))
     do 
         assert(res(index) == actual(index), "Test Case 1 Failed!")
 }
@@ -25,9 +27,11 @@ def testCase2(f: (String, Int) => List[String]): Unit = {
 
     val actual = Array("117.145.102.62/31","117.145.102.64/30","117.145.102.68/31") 
 
-    for (index <- Range(0, res.length))
+    assert(res.length == actual.length, "Test Case 2 Failed! Lists were different lengths")
+
+    for (index <- Range(0, actual.length))
     do 
-        assert(res(index) == actual(index), "Test Case 1 Failed!")
+        assert(res(index) == actual(index), "Test Case 2 Failed!")
 }
 
 
