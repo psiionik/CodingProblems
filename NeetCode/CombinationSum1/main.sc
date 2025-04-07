@@ -48,8 +48,26 @@ def testCase3(f: (Array[Int], Int) => List[List[Int]]): Unit = {
     val res = f(candidates, target)
     println(res)
 
-    val actual: List[List[Int]] = Nil 
+    val actual: List[List[Int]] = Nil
 
+    for (i <- actual.indices)
+    do
+        for (j <- actual(i).indices)
+        do
+            assert(res(i)(j) == actual(i)(j), "Test Case 3 Failed!")
+}
+
+def testCase4(f: (Array[Int], Int) => List[List[Int]]): Unit = {
+    val candidates = Array(3,5,8)
+    val target = 11 
+
+    val res = f(candidates, target)
+    println(res)
+
+    val actual: List[List[Int]] = List(
+        List(3, 3, 5),
+        List(3, 8)
+    )
     for (i <- actual.indices)
     do
         for (j <- actual(i).indices)
@@ -61,6 +79,7 @@ def runTestCases(f: (Array[Int], Int) => List[List[Int]]): Unit = {
     testCase1(f)
     testCase2(f)
     testCase3(f)
+    testCase4(f)
 }
 
 @main def mainSol1() = {
