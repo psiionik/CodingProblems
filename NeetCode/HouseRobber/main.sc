@@ -1,4 +1,5 @@
 import $file.Soln1, Soln1.Solution1
+import $file.SolnOpt, SolnOpt.SolutionOpt
 // import $file.Soln2, Soln2.Solution2
 
 def testCase1(f: (Array[Int]) => Int): Unit = {
@@ -78,6 +79,10 @@ def runTestCases(f: (Array[Int]) => Int): Unit = {
 
 @main def mainSol1() = {
     runTestCases(Solution1.rob)
+}
+
+@main def mainSolOpt() = {
+    runTestCases(SolutionOpt.rob)
 }
 
 // @main def mainSol2() = {
