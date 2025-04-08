@@ -1,9 +1,20 @@
 import $file.Soln1, Soln1.Solution1
 // import $file.Soln2, Soln2.Solution2
-// import $file.SolnOpt, SolnOpt.SolutionOpt
+import $file.SolnOpt, SolnOpt.SolutionOpt
 
 def testCase1(): Unit = {
     val hit_counter: Solution1.HitCounter  = new Solution1.HitCounter()
+    println(hit_counter.hit(1))
+    println(hit_counter.hit(2))
+    println(hit_counter.hit(3))
+    println(hit_counter.getHits(4))
+    println(hit_counter.hit(300))
+    println(hit_counter.getHits(300))
+    println(hit_counter.getHits(301))
+}
+
+def testCase1Opt(): Unit = {
+    val hit_counter: SolutionOpt.HitCounter  = new SolutionOpt.HitCounter()
     println(hit_counter.hit(1))
     println(hit_counter.hit(2))
     println(hit_counter.hit(3))
@@ -58,7 +69,8 @@ def testCase5(f: (Array[Int]) => Int): Unit = {
 }
 
 def runTestCases(): Unit = {
-    testCase1()
+    // testCase1()
+    testCase1Opt()
     // testCase2()
     // testCase3()
     // testCase4()
@@ -73,7 +85,7 @@ def runTestCases(): Unit = {
 //     runTestCases(Solution2.canAttendMeetings)
 // }
 
-// @main def mainSolOpt() = {
-//     runTestCases(SolutionOpt.rob)
-// }
+@main def mainSolOpt() = {
+    runTestCases()
+}
 
