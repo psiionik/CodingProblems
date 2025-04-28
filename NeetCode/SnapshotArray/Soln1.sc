@@ -7,28 +7,44 @@
  * )
  */
 
+import scala.collection.mutable.Map
 import scala.collection.mutable.ArrayBuffer
 
 object Solution1 {
     class SnapshotArray(_length: Int) {
         val length = _length 
         var _snap_idx: Int = 0
-        var _data: ArrayBuffer[Int] = ArrayBuffer.fill(length) {0}
+        var _history_records = Map.empty[Int, ArrayBuffer[(Int, Int)]]
+
+        for (i <- Range(0, length))
+        do
+            _history_records += (i -> ArrayBuffer.empty[(Int, Int)])
         
         def set(index: Int, `val`: Int): Unit = {
-            _data((_snap_idx * length) + index) = `val`
+            _history_records(index) += ((_snap_idx, `val`))
         }
 
         def snap(): Int = {
-            _data ++= ArrayBuffer.fill(length)(0)
-
             _snap_idx += 1
             _snap_idx - 1
         }
 
         def get(index: Int, snap_id: Int): Int = {
-            _data((snap_id * length) + index)
-        }
+            val record_history = _history_records(index)
+            var left = 0
+            var right = record_history.length
 
+            while (left < right)
+            do 
+                val mid = (left + right) / 2
+
+                if record_history(mid)._1 <= snap_id 
+                then
+                    left = mid + 1
+                else
+                    right = mid
+
+            record_history(left-1)._2
+        }
     }
 }

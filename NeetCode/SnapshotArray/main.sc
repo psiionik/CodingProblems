@@ -3,11 +3,15 @@ import $file.Soln1, Soln1.Solution1
 // import $file.SolnOpt, SolnOpt.SolutionOpt
 
 def testCase1(): Unit = {
-    val snapshot_array: Solution1.SnapshotArray  = new Solution1.SnapshotArray(5)
-    snapshot_array.set(0, 5)
+    val snapshot_array: Solution1.SnapshotArray  = new Solution1.SnapshotArray(2)
+    snapshot_array.set(0, 4)
+    snapshot_array.set(0, 16)
+    snapshot_array.set(0, 13)
     println(snapshot_array.snap())
-    snapshot_array.set(0, 6)
     println(snapshot_array.get(0, 0))
+    println(snapshot_array.snap())
+    // println(snapshot_array.get(0, 0))
+    // println(snapshot_array.get(0, 1))
 }
 
 def testCase1Opt(): Unit = {
