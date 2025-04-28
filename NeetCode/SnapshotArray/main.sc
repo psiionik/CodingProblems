@@ -4,8 +4,10 @@ import $file.Soln1, Soln1.Solution1
 
 def testCase1(): Unit = {
     val snapshot_array: Solution1.SnapshotArray  = new Solution1.SnapshotArray(5)
-
-    println(snapshot_array._data.mkString(" "))
+    snapshot_array.set(0, 5)
+    println(snapshot_array.snap())
+    snapshot_array.set(0, 6)
+    println(snapshot_array.get(0, 0))
 }
 
 def testCase1Opt(): Unit = {

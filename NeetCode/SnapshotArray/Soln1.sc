@@ -7,21 +7,27 @@
  * )
  */
 
+import scala.collection.mutable.ArrayBuffer
+
 object Solution1 {
     class SnapshotArray(_length: Int) {
-        var _snap_id: Int = 0
-        var _data: Array[(Int, Int)] = Array.fill(_length) {(0, 0)}
+        val length = _length 
+        var _snap_idx: Int = 0
+        var _data: ArrayBuffer[Int] = ArrayBuffer.fill(length) {0}
         
         def set(index: Int, `val`: Int): Unit = {
-
+            _data((_snap_idx * length) + index) = `val`
         }
 
         def snap(): Int = {
-            1
+            _data ++= ArrayBuffer.fill(length)(0)
+
+            _snap_idx += 1
+            _snap_idx - 1
         }
 
         def get(index: Int, snap_id: Int): Int = {
-            1
+            _data((snap_id * length) + index)
         }
 
     }

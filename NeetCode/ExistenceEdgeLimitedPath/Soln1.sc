@@ -1,43 +1,63 @@
 object Solution1 {
-    def validTree(n: Int, edges: Array[Array[Int]]): Boolean = {
+    def distanceLimitedPathsExist(n: Int, edgeList: Array[Array[Int]], queries: Array[Array[Int]]): Array[Boolean] = {
         def find(representatives: Array[Int], node: Int): Int = {
-            if (representatives(node) == node)
+            if representatives(node) == node
             then
                 return node
             else
                 representatives(node) = find(representatives, representatives(node))
-                return representatives(node) 
+                return representatives(node)
         }
 
-        def union(representatives: Array[Int], sizes: Array[Int], u: Int, v: Int): Boolean = {
-            val u_parent = find(representatives, u)
-            val v_parent = find(representatives, v)
+        def union(representatives: Array[Int], ranks: Array[Int], u: Int, v: Int): Unit = {
+            val u_root = find(representatives, u)
+            val v_root = find(representatives, v)
 
-            if u_parent == v_parent
+            if u_root == v_root
             then
-                return false 
+                return
             else
-                if sizes(u_parent) < sizes(v_parent)
+                if ranks(u_root) <= ranks(v_root)
                 then
-                    representatives(u_parent) = v_parent
-                    sizes(v_parent) += sizes(u_parent)
-                    return true 
+                    representatives(u_root) = v_root
+                    ranks(v_root) += ranks(u_root)
                 else
-                    representatives(v_parent) = u_parent
-                    sizes(u_parent) += sizes(v_parent)
-                    return true 
+                    representatives(v_root) = u_root
+                    ranks(u_root) += ranks(v_root)
         }
 
-        val representatives_arr_1 = Array.fill(n)(0).zipWithIndex.map {
-            case (element, index) =>
-                index 
+        def connected(representatives: Array[Int], p: Int, q: Int): Boolean = {
+            return find(representatives, p) == find(representatives, q)
         }
-        val sizes_arr = Array.fill(n)(1)
 
-        if (edges.length != (n-1)) then return false
+        val ret = Array.fill(queries.length)(false)
+        val representatives_arr = Array.fill(n)(0).zipWithIndex.map((ele, ind) => ind)
+        val ranks = Array.fill(n)(1)
 
-        val cycle_det_stat_1 = edges.foldLeft(true)((status, edge) => status && union(representatives_arr_1, sizes_arr, edge(0), edge(1)))
+        val edge_list_sorted = edgeList.sortBy(edge => (edge(0), edge(1), edge(2))._3)
+        val queries_sorted = queries.zipWithIndex.map {
+            case (arr, index) =>
+                Array(arr(0), arr(1), arr(2), index)
+        }.sortBy(q => (q(0), q(1), q(2), q(3))._3)
 
-        cycle_det_stat_1
+        var edges_index = 0
+        for (query <- queries_sorted)
+        do 
+            val p = query(0)
+            val q = query(1)
+            val query_dist = query(2)
+            val query_index = query(3)
+
+            while (edges_index < edge_list_sorted.length) && (edge_list_sorted(edges_index)(2) < query_dist)
+            do 
+                val u = edge_list_sorted(edges_index)(0)
+                val v = edge_list_sorted(edges_index)(1)
+
+                union(representatives_arr, ranks, u, v)
+                edges_index+=1
+
+            ret(query_index) = connected(representatives_arr, p, q)
+
+        ret
     }
 }
