@@ -15,19 +15,15 @@ object Solution1 {
         val _size = _k
         val _mem = Array.fill(_size)(0)
         var front_pointer = 0
-        var back_pointer = 0
-        var is_full = false
+        var count = 0
 
         def enQueue(value: Int): Boolean = {
             if isFull()
             then
                 false 
             else
-                _mem(back_pointer) = value
-                back_pointer = java.lang.Math.floorMod((back_pointer + 1), _size)
-                if front_pointer == back_pointer
-                then
-                    is_full = true
+                _mem(java.lang.Math.floorMod(front_pointer + count, _size)) = value
+                count += 1
                 true
         }
 
@@ -37,10 +33,7 @@ object Solution1 {
                 false            
             else
                 front_pointer = java.lang.Math.floorMod((front_pointer + 1), _size)
-                if front_pointer == back_pointer
-                then
-                    is_full = false
-
+                count -= 1
                 true
         }
 
@@ -57,15 +50,15 @@ object Solution1 {
             then
                 -1    
             else
-                _mem(java.lang.Math.floorMod((back_pointer - 1), _size))
+                _mem(java.lang.Math.floorMod(front_pointer + count - 1, _size))
         }
 
         def isEmpty(): Boolean = {
-            front_pointer == back_pointer && !is_full
+            count == 0
         }
 
         def isFull(): Boolean = {
-            front_pointer == back_pointer && is_full
+            count == _size
         }
     }
 }
