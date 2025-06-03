@@ -1,14 +1,22 @@
+import scala.collection.mutable.HashMap
+
 object SolutionOpt {
-    def rob(nums: Array[Int]): Int = {
-        var window_minus_2 = 0
-        var window_minus_1 = 0
+    def lengthOfLongestSubstring(s: String): Int = {
+        var char_index_counter = new HashMap[Char, Int]()
+        var left_pointer = 0
+        var right_pointer = 0
+        var max_so_far = 0
+       
+        while (right_pointer < s.length) {
+            if char_index_counter.contains(s(right_pointer))
+            then
+                left_pointer = Math.max(char_index_counter(s(right_pointer)), left_pointer)
+            
+            max_so_far = Math.max(max_so_far, right_pointer - left_pointer + 1)
+            char_index_counter.addOne((s(right_pointer), right_pointer + 1))
+            right_pointer += 1
+        }
 
-        for (num <- nums)
-        do 
-            var temp = Math.max(window_minus_2 + num, window_minus_1)
-            window_minus_2 = window_minus_1
-            window_minus_1 = temp
-
-        window_minus_1
+        max_so_far
     }
 }

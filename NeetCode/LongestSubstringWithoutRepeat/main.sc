@@ -1,5 +1,5 @@
 import $file.Soln1, Soln1.Solution1
-// import $file.SolnOpt, SolnOpt.SolutionOpt
+import $file.SolnOpt, SolnOpt.SolutionOpt
 // import $file.Soln2, Soln2.Solution2
 
 def testCase1(f: (String) => Int): Unit = {
@@ -48,9 +48,9 @@ def runTestCases(f: (String) => Int): Unit = {
     runTestCases(Solution1.lengthOfLongestSubstring)
 }
 
-// @main def mainSolOpt() = {
-//     runTestCases(SolutionOpt.rob)
-// }
+@main def mainSolOpt() = {
+    runTestCases(SolutionOpt.lengthOfLongestSubstring)
+}
 
 // @main def mainSol2() = {
 //     runTestCases(Solution2.canAttendMeetings)
