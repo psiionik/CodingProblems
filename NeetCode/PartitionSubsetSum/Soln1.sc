@@ -1,27 +1,81 @@
+/* 
+Given an integer array nums, return true if you can partition the array into two subsets
+such that the sum of the elements in both subsets is equal or false otherwise.
+ 
+
+Example 1:
+
+Input: nums = [1,5,11,5]
+Output: true
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+Example 2:
+
+Input: nums = [1,2,3,5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.
+
+Constraints:
+
+1 <= nums.length <= 200
+1 <= nums[i] <= 100
+ */
+
 object Solution1 {
-    def maximalSquare(matrix: Array[Array[Char]]): Int = {
-        val height = matrix.length
-        val width = matrix(0).length
-        var dp = Array.fill[Array[Int]](height + 1)(Array.fill[Int](width + 1)(0))
-        var max_so_far = 0
-
-        for (row_index <- Range(1, height + 1))
+    def canPartition(nums: Array[Int]): Boolean = {
+        var total_sum = 0
+        for (num <- nums)
         do 
-            for (col_index <- Range(1, width + 1))
+            total_sum += num
+        
+        if total_sum % 2 == 1
+        then
+            return false
+
+        val subset_sum = total_sum / 2
+        val n = nums.length
+        val dp = Array.fill[Array[Boolean]](n + 1)(Array.fill[Boolean](subset_sum + 1)(false))
+        dp(0)(0) = true
+
+        for (i <- Range(1, n + 1))
+        do 
+            val curr_value = nums(i - 1)
+            for (j <- Range(0, subset_sum + 1))
             do 
-                if (matrix(row_index - 1)(col_index - 1) == '1')
+                if j < curr_value
                 then
-                    dp(row_index)(col_index) = Math.min(
-                        Math.min(
-                            dp(row_index - 1)(col_index - 1),
-                            dp(row_index - 1)(col_index)
-                        ),
-                        dp(row_index)(col_index - 1)
-                    ) + 1
+                    dp(i)(j) = dp(i - 1)(j)
+                else
+                    dp(i)(j) = dp(i - 1)(j) || dp(i - 1)(j - curr_value)
 
-                    max_so_far = Math.max(max_so_far, dp(row_index)(col_index))
+        dp(n)(subset_sum)
+    }
 
+    def canPartitionOpt(nums: Array[Int]): Boolean = {
+        if nums.length == 0
+        then
+            return false
 
-        max_so_far * max_so_far
+        var total_sum = 0
+        for (num <- nums)
+        do 
+            total_sum += num
+        
+        if total_sum % 2 == 1
+        then
+            return false
+
+        val subset_sum = total_sum / 2
+        val n = nums.length
+        var dp = Array.fill[Boolean](subset_sum + 1)(false)
+        dp(0) = true
+
+        for (i <- Range(1, n + 1))
+        do 
+            val curr_value = nums(i - 1)
+            for (j <- Range(subset_sum, curr_value - 1, -1))
+            do 
+                dp(j) = dp(j) || dp(j - curr_value)
+
+        dp(subset_sum)
     }
 }

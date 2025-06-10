@@ -1,60 +1,32 @@
 import $file.Soln1, Soln1.Solution1
-// import $file.SolnOpt, SolnOpt.SolutionOpt
-// import $file.Soln2, Soln2.Solution2
 
-def testCase1(f: (Array[Array[Char]]) => Int): Unit = {
-    val matrix = Array(
-        Array('1','0','1','0','0'),
-        Array('1','0','1','1','1'),
-        Array('1','1','1','1','1'),
-        Array('1','0','0','1','0')
-    ) 
+def testCase1(f: (Array[Int]) => Boolean): Unit = {
+    val nums = Array(1, 5, 11, 5) 
 
-    val res = f(matrix)
+    val res = f(nums)
     println(res)
 
-    val actual = 4
+    val actual = true 
 
     assert(res == actual, "Test Case 1 Failed!")
 }
 
-def testCase2(f: (Array[Array[Char]]) => Int): Unit = {
-    val matrix = Array(
-        Array('0', '1'),
-        Array('1', '0')
-    ) 
+def testCase2(f: (Array[Int]) => Boolean): Unit = {
+    val nums = Array(1, 2, 3, 5) 
 
-    val res = f(matrix)
+    val res = f(nums)
     println(res)
 
-    val actual = 1
+    val actual = false 
 
     assert(res == actual, "Test Case 2 Failed!")
 }
 
-def testCase3(f: (Array[Array[Char]]) => Int): Unit = {
-    val matrix = Array(
-        Array('0')
-    ) 
-
-    val res = f(matrix)
-    println(res)
-
-    val actual = 0
-
-    assert(res == actual, "Test Case 3 Failed!")
-}
-
-def runTestCases(f: (Array[Array[Char]]) => Int): Unit = {
+def runTestCases(f: (Array[Int]) => Boolean): Unit = {
     testCase1(f)
     testCase2(f)
-    testCase3(f)
 }
 
 @main def mainSol1() = {
-    runTestCases(Solution1.maximalSquare)
+    runTestCases(Solution1.canPartition)
 }
-
-// @main def mainSolOpt() = {
-//     runTestCases(SolutionOpt.rob)
-// }
