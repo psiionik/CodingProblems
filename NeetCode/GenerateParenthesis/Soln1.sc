@@ -21,6 +21,22 @@ Constraints:
 
 object Solution1 {
     def generateParenthesis(n: Int): List[String] = {
-        List()
+        var res = List[String]()
+        def dfs(n: Int, acc: String, left_count: Int, right_count: Int): Unit = {
+            if right_count > left_count || left_count > n
+            then
+                return
+
+            if left_count == n && right_count == n
+            then
+                res = acc :: res
+                return
+
+            dfs(n, acc + "(", left_count + 1, right_count)
+            dfs(n, acc + ")", left_count, right_count + 1)
+
+        }
+        dfs(n, "", 0, 0)
+        res
     }
 }
