@@ -64,5 +64,6 @@ def runTestCases(f: (String) => Boolean): Unit = {
 }
 
 @main def mainSol1() = {
-    runTestCases(Solution1.checkValidString)
+    // runTestCases(Solution1.checkValidString)
+    runTestCases(Solution1.checkValidStringDP)
 }

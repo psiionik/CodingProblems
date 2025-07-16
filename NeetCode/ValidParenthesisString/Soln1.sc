@@ -30,7 +30,50 @@ import scala.util.boundary, boundary.break
 
 object Solution1 {
     def checkValidStringDP(s: String): Boolean = {
-        false
+        // Create our bottom-up tabulation memory structure to hold computation states in DP
+        // Here the row indexes represent the character we are at in the string
+        // The column indexes represent the count of open parenthesis we have so far
+        val dp = Array.fill[Array[Boolean]](s.length + 1)(Array.fill[Boolean](s.length + 1)(false))
+
+        // If we have seen all of the characters in the string and the amount of open parenthesis is 0, then it is a valid parenthesis string
+        dp(s.length)(0) = true
+
+        // Loop through all of the indexes of the string backward
+        for (char_index <- Range(s.length - 1, -1, -1))
+        do 
+            // Loop through all of the possible numbers of open parenthesis counts
+            for (open_paren_count <- 0 until (s.length))
+            do 
+                var is_valid = false
+
+                // If the current character is a "*", then we try to explore the possibilities when the "*" is a "(", ")", or ""
+                if s(char_index) == '*'
+                then
+                    // When "*" is "(", then we have to look at the previous char index and the open paren count + 1 
+                    is_valid |= dp(char_index + 1)(open_paren_count + 1)
+
+                    // When "*" is ")", then we have to loko at the previous char index and open paren count - 1
+                    if open_paren_count > 0
+                    then
+                        is_valid |= dp(char_index + 1)(open_paren_count - 1)
+                    
+                    // When "*" is "", then we just look at the validity of the previous char index with no change to open paren count
+                    is_valid |= dp(char_index + 1)(open_paren_count)
+                else
+                    // When the current character is "(", then look at the validity of the previous char index and open paren count + 1
+                    if s(char_index) == '('
+                    then
+                        is_valid |= dp(char_index + 1)(open_paren_count + 1)
+                    else
+                        // When the current character is ")", then look at the validity of the previous char_index and open paren count - 1
+                        if open_paren_count > 0
+                        then
+                            is_valid |= dp(char_index + 1)(open_paren_count - 1)
+                
+                // Store the result in the dp cell
+                dp(char_index)(open_paren_count) = is_valid
+
+        dp(0)(0)
     }
 
     def checkValidString(s: String): Boolean = {
