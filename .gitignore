@@ -10,6 +10,10 @@
 **/*/.scala-build
 **/*/.metals/*
 
+**/*/__pycache__
+**/__pycache__
+__pycache__
+
 .bsp/
 .ammonite/
 .vscode/
